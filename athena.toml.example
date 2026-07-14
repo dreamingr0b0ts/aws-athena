@@ -1,0 +1,36 @@
+# athena-toolkit configuration
+#
+# Copy this file to one of the following locations (first match wins):
+#   1. Path given by  --config / $ATHENA_TOOLKIT_CONFIG
+#   2. ./athena.toml          (project-local)
+#   3. ~/.config/athena-toolkit/config.toml
+#
+# Select an environment with  --env <name>  or  $ATHENA_TOOLKIT_ENV.
+# Any single setting can also be overridden by an env var (ATHENA_REGION,
+# ATHENA_WORKGROUP, ATHENA_OUTPUT_LOCATION, ATHENA_DATABASE, ATHENA_CATALOG,
+# ATHENA_PROFILE) or a CLI flag.
+
+# Name of the environment used when --env is not supplied.
+default_environment = "dev"
+
+# Settings inherited by every environment unless overridden below.
+[defaults]
+region = "us-east-1"
+catalog = "AwsDataCatalog"
+poll_interval = 1.0   # seconds between status checks
+max_wait = 300        # max seconds to wait for a query
+
+[environments.dev]
+profile = "my-dev-profile"          # AWS shared-credentials profile (optional)
+region = "us-east-1"
+workgroup = "primary"
+output_location = "s3://my-dev-athena-results/"
+database = "dev_analytics"
+
+[environments.prod]
+profile = "my-prod-profile"
+region = "us-west-2"
+workgroup = "prod-wg"
+output_location = "s3://my-prod-athena-results/"
+database = "analytics"
+max_wait = 900
